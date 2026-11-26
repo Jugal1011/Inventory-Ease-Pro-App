@@ -1,7 +1,7 @@
 // Serverless entry point (Vercel). Local development uses src/server.js instead.
 import "dotenv/config";
 import mongoose from "mongoose";
-import { createApp } from "../src/app.js";
+import { createApp } from "../src/createApp.js";
 import { connectDB } from "../src/config/db.js";
 
 const app = createApp({ frontendUrl: process.env.FRONTEND_URL || "http://localhost:5173" });

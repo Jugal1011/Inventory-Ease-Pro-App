@@ -6,7 +6,7 @@
   "description": "InventoryEasePro API (Node.js 20+, Express 5, Mongoose 8)",
   "main": "api/index.js",
   "engines": {
-    "node": ">=20"
+    "node": "22.x"
   },
   "scripts": {
     "start": "node src/server.js",
