@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "description": "InventoryEasePro API (Node.js 20+, Express 5, Mongoose 8)",
-  "main": "src/server.js",
+  "main": "api/index.js",
   "engines": {
     "node": ">=20"
   },
