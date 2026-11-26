@@ -1,29 +1,33 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "backend": "nodemon server.js"
+  "name": "inventory-ease-backend",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "InventoryEasePro API (Node.js 20+, Express 5, Mongoose 8)",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=20"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "mail:sink": "python3 scripts/smtp-sink.py",
+    "test:mail": "node test/sendEmail.test.mjs",
+    "test:api": "node test/api.e2e.mjs",
+    "test": "node test/sendEmail.test.mjs"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "body-parser": "^1.20.2",
-    "cloudinary": "^1.41.1",
-    "cookie-parser": "^1.4.6",
+    "cloudinary": "^2.5.1",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "crypto": "^1.0.1",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "express-async-handler": "^1.2.0",
-    "googleapis": "^171.4.0",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.0.3",
-    "multer": "^1.4.5-lts.1"
+    "mongoose": "^8.9.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.16"
   }
 }

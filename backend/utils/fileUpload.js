@@ -1,4 +1,4 @@
-const multer = require("multer");
+import multer from "multer";
 
 // Define file storage
 const storage = multer.diskStorage({
@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
     cb(
       null,
       new Date().toISOString().replace(/:/g, "-") + "-" + file.originalname
-    ); // 23/08/2022 -> 23-8-2022
+    );
   },
 });
 
@@ -26,10 +26,10 @@ function fileFilter(req, file, cb) {
   }
 }
 
-const upload = multer({ storage, fileFilter });
+export const upload = multer({ storage, fileFilter });
 
 // File Size Formatter
-const fileSizeFormatter = (bytes, decimal) => {
+export const fileSizeFormatter = (bytes, decimal) => {
   if (bytes === 0) {
     return "0 Bytes";
   }
@@ -41,4 +41,4 @@ const fileSizeFormatter = (bytes, decimal) => {
   );
 };
 
-module.exports = { upload, fileSizeFormatter };
+export default { upload, fileSizeFormatter };
