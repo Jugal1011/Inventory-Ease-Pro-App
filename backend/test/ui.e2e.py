@@ -1,0 +1,47 @@
+import json, re, os, time
+from playwright.sync_api import sync_playwright, expect
+BASE="http://localhost:5173"; INBOX=os.environ.get("MAIL_INBOX","/tmp/inbox.json")
+def token_from_mail(to, pattern, tries=30):
+    for _ in range(tries):
+        if os.path.exists(INBOX):
+            for m in reversed(json.load(open(INBOX))):
+                if to in m["to"] and re.search(pattern, m["text"]):
+                    return re.search(pattern, m["text"]).group(1)
+        time.sleep(0.3)
+    raise SystemExit(f"no mail for {to}")
+with sync_playwright() as p:
+    b=p.chromium.launch(); c=b.new_context(viewport={"width":1440,"height":900}); pg=c.new_page()
+    errs=[]; pg.on("pageerror", lambda e: errs.append(str(e)))
+    pg.goto(BASE+"/app/register-user"); pg.wait_for_timeout(800)
+    pg.fill("#name","Priya Shah"); pg.fill("#email","priya.ui+1795661100@test.dev")
+    pg.fill("#password","Str0ng!Pass"); pg.fill("#confirm","Str0ng!Pass")
+    pg.get_by_role("button",name="Create account").click()
+    pg.wait_for_url("**/app/login-user", timeout=15000); print("PASS register → login page")
+    tok=token_from_mail("priya.ui+1795661100@test.dev", r"confirm-email/([a-f0-9]{64})")
+    pg.goto(f"{BASE}/app/confirm-email/{tok}")
+    expect(pg.get_by_text("You're verified")).to_be_visible(timeout=10000); print("PASS email verified via link")
+    pg.goto(BASE+"/app/login-user"); pg.wait_for_timeout(600)
+    pg.fill("#email","priya.ui+1795661100@test.dev"); pg.fill("#password","Str0ng!Pass")
+    pg.get_by_role("button",name="Log in").click()
+    pg.wait_for_url("**/app/dashboard", timeout=15000); print("PASS login → dashboard")
+    expect(pg.get_by_text("No products yet")).to_be_visible(timeout=10000); print("PASS empty state shown")
+    pg.goto(BASE+"/app/add-product"); pg.wait_for_timeout(700)
+    pg.get_by_role("button",name="Add product").click()
+    expect(pg.locator("span.hint", has_text="Name is required")).to_be_visible(); print("PASS validation shows after submit")
+    pg.fill("input[name=name]","Ergonomic Chair"); pg.fill("input[name=category]","Furniture")
+    pg.fill("input[name=price]","8999"); pg.fill("input[name=quantity]","0")
+    pg.fill("textarea[name=description]","Mesh back, adjustable lumbar support.")
+    pg.get_by_role("button",name="Add product").click()
+    pg.wait_for_url("**/app/dashboard", timeout=15000)
+    expect(pg.get_by_text("Ergonomic Chair")).to_be_visible(timeout=10000); print("PASS product created and listed")
+    expect(pg.get_by_text("Out of stock").first).to_be_visible(); print("PASS stock badge correct")
+    pg.get_by_role("button",name="Delete product").first.click()
+    pg.get_by_role("button",name="Delete product").last.click()
+    expect(pg.get_by_text("No products yet")).to_be_visible(timeout=10000); print("PASS product deleted")
+    pg.goto(BASE+"/app/account/profile"); pg.wait_for_timeout(800)
+    expect(pg.get_by_text("Priya Shah").first).to_be_visible(); print("PASS profile page")
+    pg.goto(BASE+"/app/dashboard"); pg.wait_for_timeout(500)
+    pg.get_by_role("button",name="Log out").click(); pg.wait_for_url("**/app/login-user", timeout=10000); print("PASS logout")
+    pg.goto(BASE+"/app/dashboard"); pg.wait_for_url("**/app/login-user", timeout=10000); print("PASS protected route redirects when logged out")
+    print("page errors:", errs or "none")
+    b.close()
