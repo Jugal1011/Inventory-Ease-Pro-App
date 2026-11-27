@@ -13,6 +13,46 @@ export const stockStatus = (quantity) => {
   return { label: "In stock", tone: "success" };
 };
 
+export const customerStatus = (status = "active") => {
+  switch (status) {
+    case "active":
+      return { label: "Active", tone: "success" };
+    case "lead":
+      return { label: "Lead", tone: "warning" };
+    case "inactive":
+      return { label: "Inactive", tone: "danger" };
+    default:
+      return { label: status, tone: "info" };
+  }
+};
+
+export const orderStatusBadge = (status = "pending") => {
+  switch (status) {
+    case "completed":
+    case "received":
+      return { label: status === "completed" ? "Completed" : "Received", tone: "success" };
+    case "pending":
+      return { label: "Pending", tone: "warning" };
+    case "cancelled":
+      return { label: "Cancelled", tone: "danger" };
+    default:
+      return { label: status, tone: "info" };
+  }
+};
+
+export const paymentStatusBadge = (status = "paid") => {
+  switch (status) {
+    case "paid":
+      return { label: "Paid", tone: "success" };
+    case "partial":
+      return { label: "Partial", tone: "warning" };
+    case "unpaid":
+      return { label: "Unpaid", tone: "danger" };
+    default:
+      return { label: status, tone: "info" };
+  }
+};
+
 export const shorten = (text = "", max = 24) => (text.length <= max ? text : `${text.slice(0, max)}…`);
 
 export const initials = (name = "") =>

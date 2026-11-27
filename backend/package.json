@@ -14,6 +14,7 @@
     "mail:sink": "python3 scripts/smtp-sink.py",
     "test:mail": "node test/sendEmail.test.mjs",
     "test:api": "node test/api.e2e.mjs",
+    "test:customer": "node test/customers.test.mjs",
     "test": "node test/sendEmail.test.mjs"
   },
   "dependencies": {
