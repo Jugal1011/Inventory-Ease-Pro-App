@@ -30,6 +30,38 @@ export const ProductsAPI = {
   remove: (id) => api.delete(`/api/products/${id}`).then((r) => r.data),
 };
 
+export const CustomersAPI = {
+  list: () => api.get("/api/customers").then((r) => r.data),
+  get: (id) => api.get(`/api/customers/${id}`).then((r) => r.data),
+  create: (data) => api.post("/api/customers", data).then((r) => r.data),
+  update: (id, data) => api.patch(`/api/customers/${id}`, data).then((r) => r.data),
+  remove: (id) => api.delete(`/api/customers/${id}`).then((r) => r.data),
+};
+
+export const DealersAPI = {
+  list: () => api.get("/api/dealers").then((r) => r.data),
+  get: (id) => api.get(`/api/dealers/${id}`).then((r) => r.data),
+  create: (data) => api.post("/api/dealers", data).then((r) => r.data),
+  update: (id, data) => api.patch(`/api/dealers/${id}`, data).then((r) => r.data),
+  remove: (id) => api.delete(`/api/dealers/${id}`).then((r) => r.data),
+};
+
+export const SalesOrdersAPI = {
+  list: () => api.get("/api/sales-orders").then((r) => r.data),
+  get: (id) => api.get(`/api/sales-orders/${id}`).then((r) => r.data),
+  create: (data) => api.post("/api/sales-orders", data).then((r) => r.data),
+  updateStatus: (id, data) => api.patch(`/api/sales-orders/${id}`, data).then((r) => r.data),
+  remove: (id) => api.delete(`/api/sales-orders/${id}`).then((r) => r.data),
+};
+
+export const PurchaseOrdersAPI = {
+  list: () => api.get("/api/purchase-orders").then((r) => r.data),
+  get: (id) => api.get(`/api/purchase-orders/${id}`).then((r) => r.data),
+  create: (data) => api.post("/api/purchase-orders", data).then((r) => r.data),
+  updateStatus: (id, data) => api.patch(`/api/purchase-orders/${id}`, data).then((r) => r.data),
+  remove: (id) => api.delete(`/api/purchase-orders/${id}`).then((r) => r.data),
+};
+
 export const ContactAPI = {
   send: (data) => api.post("/api/contactus", data).then((r) => r.data),
 };

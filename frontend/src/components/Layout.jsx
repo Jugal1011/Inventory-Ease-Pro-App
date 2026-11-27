@@ -2,7 +2,21 @@ import { useEffect, useState } from "react";
 import { NavLink, Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { FiGrid, FiPlusSquare, FiUser, FiEdit3, FiMessageSquare, FiLogOut, FiMenu, FiX, FiBox } from "react-icons/fi";
+import {
+  FiGrid,
+  FiPlusSquare,
+  FiUser,
+  FiEdit3,
+  FiMessageSquare,
+  FiLogOut,
+  FiMenu,
+  FiX,
+  FiBox,
+  FiUsers,
+  FiTruck,
+  FiShoppingCart,
+  FiShoppingBag,
+} from "react-icons/fi";
 import { logoutUser, selectAuth } from "../store/authSlice";
 import { initials } from "../utils";
 import { FullScreenLoader } from "./ui";
@@ -10,7 +24,11 @@ import { errorMessage } from "../api";
 
 const NAV = [
   { to: "/app/dashboard", label: "Dashboard", icon: FiGrid },
-  { to: "/app/add-product", label: "Add product", icon: FiPlusSquare },
+  { to: "/app/products", label: "Products", icon: FiBox },
+  { to: "/app/customers", label: "Customers", icon: FiUsers },
+  { to: "/app/dealers", label: "Dealers", icon: FiTruck },
+  { to: "/app/sales-orders", label: "Sales Orders", icon: FiShoppingCart },
+  { to: "/app/purchase-orders", label: "Purchase Orders", icon: FiShoppingBag },
 ];
 const ACCOUNT = [
   { to: "/app/account/profile", label: "Profile", icon: FiUser },
